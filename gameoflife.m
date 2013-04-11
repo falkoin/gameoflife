@@ -1,14 +1,15 @@
 % Parameter
-saveMovie     = 1;
+saveMovie     = 0;
 sizeField     = 100;
 gameLength    = 50;
-gameField     = zeros(sizeField+1,sizeField+1);
-gameFieldTemp = zeros(sizeField+1,sizeField+1);
-hr            = zeros(sizeField+1,sizeField+1);
+gameField     = zeros(sizeField+2,sizeField+2);
+gameFieldTemp = zeros(sizeField+2,sizeField+2);
+hr            = zeros(sizeField,sizeField);
+hr2           = zeros(sizeField,sizeField);
 
 % Spielfeld zufällig füllen
-for x = 2:sizeField-1
-  for y = 2:sizeField-1
+for x = 2:sizeField+1
+  for y = 2:sizeField+1
     randomNr = randi([0 10],1);
     if randomNr == 10
       gameField(x,y) = 1;
@@ -30,8 +31,8 @@ setappdata(gca,'LegendColorbarReclaimSpace',1);
 xlim([0,sizeField]);
 ylim([0,sizeField]);
 
-  for i = 2:sizeField
-    for k = 2:sizeField
+  for i = 2:sizeField+1
+    for k = 2:sizeField+1
       if gameField(i,k) == 1
         hr(i-1,k-1)=fill([i-2 i-2 i-1],[k-2 k-1 k-2],'k','EdgeColor','none');
         hr2(i-1,k-1)=fill([i-1 i-1 i-2],[k-1 k-2 k-1],'k','EdgeColor','none');
@@ -44,23 +45,23 @@ ylim([0,sizeField]);
   
 % Spiel
 for idx = 1:gameLength
-  for i = 2:sizeField-1
-    for k = 2:sizeField-1
+  for i = 2:sizeField+1
+    for k = 2:sizeField+1
       sumCheck = sum([gameField(i+1,k),gameField(i-1,k), ...
                       gameField(i,k+1),gameField(i+1,k+1),gameField(i-1,k+1), ...
                       gameField(i,k-1),gameField(i+1,k-1),gameField(i-1,k-1)]);
       if gameField(i,k) == 0 && sumCheck == 3
         gameFieldTemp(i,k) = 1;
-        set(hr(i,k),'FaceColor','k')
-        set(hr2(i,k),'FaceColor','k')
-      elseif gameField(i,k) == 1 && sumCheck == 1 || sumCheck == 2
-        gameFieldTemp(i,k) = 1;
-        set(hr(i,k),'FaceColor','k')
-        set(hr2(i,k),'FaceColor','k')
+        set(hr(i-1,k-1),'FaceColor','k')
+        set(hr2(i-1,k-1),'FaceColor','k')
+      elseif gameField(i-1,k-1) == 1 && sumCheck == 1 || sumCheck == 2
+        gameFieldTemp(i-1,k-1) = 1;
+        set(hr(i-1,k-1),'FaceColor','k')
+        set(hr2(i-1,k-1),'FaceColor','k')
       else
         gameFieldTemp(i,k) = 0;
-        set(hr(i,k),'FaceColor','w')
-        set(hr2(i,k),'FaceColor','w')
+        set(hr(i-1,k-1),'FaceColor','w')
+        set(hr2(i-1,k-1),'FaceColor','w')
       end
     end
   end
