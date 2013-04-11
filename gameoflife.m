@@ -4,14 +4,13 @@ sizeField     = 100;
 gameLength    = 100;
 gameField     = uint8(zeros(sizeField+2,sizeField+2));
 gameFieldTemp = uint8(zeros(sizeField+2,sizeField+2));
-hr            = zeros(sizeField,sizeField);
-hr2           = zeros(sizeField,sizeField);
 
 % Zeichnen
 colormap(gray(2));
 image(gameField);
 axis equal
-axis off  
+axis off
+
 % Interaktion mit dem Plot
 % Info: Punkte mit linker Maustaste setzen. Letzen Punkt mit rechter Maustaste setzen
 but = 1;
