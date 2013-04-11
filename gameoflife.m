@@ -1,23 +1,11 @@
 % Parameter
 saveMovie     = 0;
-sizeField     = 100;
-gameLength    = 50;
+sizeField     = 20;
+gameLength    = 100;
 gameField     = zeros(sizeField+2,sizeField+2);
 gameFieldTemp = zeros(sizeField+2,sizeField+2);
 hr            = zeros(sizeField,sizeField);
 hr2           = zeros(sizeField,sizeField);
-
-% Spielfeld zufällig füllen
-for x = 2:sizeField+1
-  for y = 2:sizeField+1
-    randomNr = randi([0 10],1);
-    if randomNr == 10
-      gameField(x,y) = 1;
-    else
-      gameField(x,y) = 0;
-    end
-  end
-end
 
 % Zeichnen
 hf = figure('color','black');
@@ -43,7 +31,19 @@ ylim([0,sizeField]);
     end
   end
   
-% Spiel
+  % Interaktion mit dem Plot
+  % Info: Punkte mit linker Maustaste setzen. Letzen Punkt mit rechter Maustaste setzen
+  but = 1;
+  while but == 1
+    [x,y,but] = ginput(1);
+    x = ceil(x);
+    y = ceil(y);
+    gameField(x+1,y+1) = 1;
+    set(hr(x,y),'FaceColor','k')
+    set(hr2(x,y),'FaceColor','k')
+  end
+  
+  % Spiel
 for idx = 1:gameLength
   for i = 2:sizeField+1
     for k = 2:sizeField+1
@@ -54,8 +54,8 @@ for idx = 1:gameLength
         gameFieldTemp(i,k) = 1;
         set(hr(i-1,k-1),'FaceColor','k')
         set(hr2(i-1,k-1),'FaceColor','k')
-      elseif gameField(i-1,k-1) == 1 && sumCheck == 1 || sumCheck == 2
-        gameFieldTemp(i-1,k-1) = 1;
+      elseif gameField(i,k) == 1 && (sumCheck == 2 || sumCheck == 3)
+        gameFieldTemp(i,k) = 1;
         set(hr(i-1,k-1),'FaceColor','k')
         set(hr2(i-1,k-1),'FaceColor','k')
       else
