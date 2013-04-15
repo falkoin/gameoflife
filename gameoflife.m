@@ -1,6 +1,6 @@
 % Parameter
 saveMovie     = 0;
-sizeField     = 100;
+sizeField     = 20;
 gameLength    = 100;
 gameField     = uint8(zeros(sizeField+2,sizeField+2));
 gameFieldTemp = uint8(zeros(sizeField+2,sizeField+2));
@@ -19,7 +19,7 @@ while but == 1
   x = round(x);
   y = round(y);
   gameField(y+1,x+1) = 1;
-  image(gameField(2:end,2:end));
+  image(gameField(2:end-1,2:end-1));
   axis equal
   axis off
   drawnow;
@@ -45,7 +45,7 @@ for idx = 1:gameLength
   if saveMovie ==1
     M(idx) = getframe(gcf);
   end
-  image(gameField(2:end,2:end));
+  image(gameField(2:end-1,2:end-1));
   axis equal
   axis off
   drawnow;
